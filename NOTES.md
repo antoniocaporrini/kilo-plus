@@ -1,4 +1,4 @@
-cc kilo.c -o kilo
+kilo.c -o kilo
 
 We have added a few things to the compilation command:
 
