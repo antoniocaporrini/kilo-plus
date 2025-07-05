@@ -74,6 +74,10 @@ struct editorConfig E;
 
 /*** PROTOTYPES ***/
 void editorSetStatusMessage(const char *fmt, ...);
+void editorRefreshScreen();
+char *editorPrompt(char *prompt);
+
+
 
 /*** TERMINAL ***/
 // The die function is used to handle errors in a consistent way.
@@ -341,15 +345,19 @@ void editorOpen(char *filename) {
 
   FILE *fp = fopen(filename, "r");
   if (!fp) die("fopen");
+
   char *line = NULL;
   size_t linecap = 0;
   ssize_t linelen;
+
   while ((linelen = getline(&line, &linecap, fp)) != -1) {
     while (linelen > 0 && (line[linelen - 1] == '\n' ||
-                           line[linelen - 1] == '\r'))
+                           line[linelen - 1] == '\r')) {
       linelen--;
-      editorInsertRow(E.numrows, line, linelen);
+    }
+    editorInsertRow(E.numrows, line, linelen);
   }
+
   free(line);
   fclose(fp);
   E.dirty = 0;
@@ -358,7 +366,13 @@ void editorOpen(char *filename) {
 // editorSave() saves the current content of the editor to a file.
 // it writes the string returned by editorRowsToString() to disk.
 void editorSave() {
-  if (E.filename == NULL) return;
+  if (E.filename == NULL) {
+    E.filename = editorPrompt("Save as: %s (ESC to cancel)");
+    if (E.filename == NULL) {
+      editorSetStatusMessage("Save aborted");
+      return;
+    }
+  }
   int len;
   char *buf = editorRowsToString(&len);
   int fd = open(E.filename, O_RDWR | O_CREAT, 0644);
@@ -522,6 +536,38 @@ void editorSetStatusMessage(const char *fmt, ...) {
 
 /*** INPUT ***/
 // editorMoveCursor() moves the cursor based on the key pressed.
+char *editorPrompt(char *prompt) {
+  size_t bufsize = 128;
+  char *buf = malloc(bufsize);
+  size_t buflen = 0;
+  buf[0] = '\0';
+  while (1) {
+    editorSetStatusMessage(prompt, buf);
+    editorRefreshScreen();
+    int c = editorReadKey();
+    if (c == DEL_KEY || c == CTRL_KEY('h') || c == BACKSPACE) {
+      if (buflen != 0) buf[--buflen] = '\0';
+    } else if (c == '\x1b') {
+      editorSetStatusMessage("");
+      free(buf);
+      return NULL;
+    } else if (c == '\r') {
+      if (buflen != 0) {
+        editorSetStatusMessage("");
+        return buf;
+      }
+    } else if (!iscntrl(c) && c < 128) {
+      if (buflen == bufsize - 1) {
+        bufsize *= 2;
+        buf = realloc(buf, bufsize);
+      }
+      buf[buflen++] = c;
+      buf[buflen] = '\0';
+    }
+  }
+}
+
+
 void editorMoveCursor(int key) {
   erow *row = (E.cy >= E.numrows) ? NULL : &E.row[E.cy];
 
@@ -647,6 +693,7 @@ void initEditor() {
 
 
   if (getWindowSize(&E.screenrows, &E.screencols) == -1) die("getWindowSize"); 
+    E.screenrows -= 2; // This is fundamental to the editor, as it reserves space for the status bar and message bar at the bottom of the screen.
 }
 
 int main(int argc, char *argv[]) {
