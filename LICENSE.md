@@ -1,11 +1,15 @@
 # License
 
+![License: BSD 2-Clause](https://img.shields.io/badge/License-BSD%202--Clause-orange.svg)
+
+![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)
+
 ## Source Code License
 
 The **kilo** source code is released under the **BSD 2-Clause License**.
 
 ```
-Copyright (c) [YEAR], [YOUR NAME]
+Copyright (c) 2025,  Salvatore Sanfilippo - antirez@gmail.com
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
