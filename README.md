@@ -32,7 +32,7 @@ All core features have been fully implemented:
 
 - `kilo.c`: Primary, monolithic source code file.
 - `README.md`: Project overview and technical summary.
-- *(upcoming)* `src/`: Planned modular implementation separating headers and sources for improved maintainability.
+- _(upcoming)_ `src/`: Planned modular implementation separating headers and sources for improved maintainability.
 
 ---
 
@@ -56,6 +56,21 @@ Ensure you have a Unix-like environment and `gcc` installed:
 gcc -o kilo kilo.c
 ./kilo filename.txt
 ```
+### Option 2 – Using the Makefile
+
+If you prefer to use `make`, the project includes a basic `Makefile`.
+
+```bash
+make        # compile the editor
+./kilo      # run the editor
+```
+
+To clean up compiled binaries:
+
+```bash
+make clean
+```
+
 
 ---
 
@@ -75,10 +90,10 @@ Key challenges encountered during development:
 
 ## 📚 Inspiration & References
 
-Inspired by the original [kilo editor](https://viewsourcecode.org/snaptoken/kilo/) by antirez. This implementation was created as an educational exercise to explore Unix internals, system programming in C, and terminal behavior.
+Inspired by the original [kilo editor](https://github.com/antirez/kilo) by antirez. This implementation was created as an educational exercise to explore Unix internals, system programming in C, and terminal behavior.
 
 ---
 
 ## 📜 License
 
-Distributed under the MIT License. See [`LICENSE`](LICENSE) for details.
+Distributed under the MIT License. See [`LICENSE.md`](LICENSE) for details.
