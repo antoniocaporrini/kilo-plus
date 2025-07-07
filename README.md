@@ -97,4 +97,4 @@ Inspired by the original [kilo editor](https://github.com/antirez/kilo) by antir
 ## 📜 License
 
 All documentation and explanatory materials in this repository are licensed under CC BY 4.0. The code itself is licensed under the BSD 2-Clause License.
-See [`LICENSE.md`](LICENSE) for details.
+See [`LICENSE.md`](LICENSE.md) for details.
