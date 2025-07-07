@@ -56,6 +56,7 @@ Ensure you have a Unix-like environment and `gcc` installed:
 gcc -o kilo kilo.c
 ./kilo filename.txt
 ```
+
 ### Option 2 – Using the Makefile
 
 If you prefer to use `make`, the project includes a basic `Makefile`.
@@ -70,7 +71,6 @@ To clean up compiled binaries:
 ```bash
 make clean
 ```
-
 
 ---
 
@@ -96,4 +96,4 @@ Inspired by the original [kilo editor](https://github.com/antirez/kilo) by antir
 
 ## 📜 License
 
-Distributed under the MIT License. See [`LICENSE.md`](LICENSE) for details.
+Distributed under the BSD 2-Clause and CC BY 4.0. See [`LICENSE.md`](LICENSE) for details.
